@@ -1,0 +1,6 @@
+select env
+- dev
+- stage
+- prod
+set NODE_ENV=[env]
+node app.js
