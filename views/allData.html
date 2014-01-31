@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    {% for user in users %}
+        <h1>{{ user.name }}</h1>
+        <span>{{ user.email }} - {{ user.date.getTime() }}</span>
+    {% endfor %}
+</body>
+</html>

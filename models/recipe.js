@@ -1,9 +1,9 @@
 /**
  * Created by Artem on 31.01.14.
  */
-var mongoose = rquire('mongoose');
+var mongoose = require('mongoose');
 
-var recipeSchema = new mongoose.schema({
+var recipeSchema = new mongoose.Schema({
     title: String,
     author: String,
     ingredients: Array,
@@ -20,4 +20,16 @@ recipeSchema.methods.findRecipeByIngredients = function(ingredients) {
     }
 }
 
-var recipe = mongoose.schema('recipe', recipeSchema);
+var Recipe = mongoose.model('Recipe', recipeSchema);
+
+function RecipeDAO() {
+
+    this.addRecipe = function(recipeData, callback) {
+        var recipe = new Recipe(recipeData);
+        recipe.save(function(err) {
+            callback(err);
+        })
+    }
+}
+
+module.exports.RecipeDAO = RecipeDAO;

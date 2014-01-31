@@ -2,7 +2,7 @@ localConf = require('./localConfig').config || {};
 
 config = {
     local: localConf,
-    viewsFolder: __dirname + '/views',
+    viewsFolder: __dirname + '/../views',
     'viewEngine': 'html',
     //
     sessionSecret: 'Secret',

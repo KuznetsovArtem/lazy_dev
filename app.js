@@ -3,7 +3,7 @@ var express = require('express')
     , cons = require('consolidate')
     , MongoClient = require('mongodb').MongoClient
     , routes = require('./controllers/routes')
-    , CONF = require('./config').config;
+    , CONF = require('./config/config').config;
 
 MongoClient.connect(CONF.local.dbConnectionUrl, function(err, db) {
     "use strict";
@@ -31,8 +31,26 @@ MongoClient.connect(CONF.local.dbConnectionUrl, function(err, db) {
 
         app.use(function(req, res, next) {
             console.log('dev fx');
-            console.log(arguments);
             next()
+        });
+
+
+        var mongoose = require('mongoose');
+        // Bootstrap db connection
+        // Connect to mongodb
+        var connect = function () {
+            var options = { server: { socketOptions: { keepAlive: 1 } } }
+            mongoose.connect(CONF.local.dbConnectionUrl, options)
+        };
+        connect();
+
+        // Error handler
+        mongoose.connection.on('error', function (err) {
+            console.log(err)
+        });
+        // Reconnect when closed
+        mongoose.connection.on('disconnected', function () {
+            connect()
         });
 
         app.listen(CONF.appPortDev);
